@@ -168,3 +168,6 @@ secrets/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# ignore all .env files
+env.py
