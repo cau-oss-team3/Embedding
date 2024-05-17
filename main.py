@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from fastapi import APIRouter, Depends
 from openai import OpenAI
 
+from env import OPEN_AI_KEY
+
 router = APIRouter(prefix="/prompt", tags=["prompt"])
 
 OPENAI_MODEL = "gpt-3.5-turbo-1106"
@@ -14,7 +16,7 @@ app = FastAPI()
 
 
 def get_openai_client() -> OpenAI:
-    return OpenAI(api_key="sk-proj-###")  # ###에 api key 입력
+    return OpenAI(api_key=OPEN_AI_KEY)  # ###에 api key 입력
 
 
 @app.get("/")
