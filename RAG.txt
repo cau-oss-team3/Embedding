@@ -1,0 +1,408 @@
+ Object-Oriented Programming Project Report
+                                                                20202865 ¿±ºˆøÎ
+
+1. Project Introduction
+
+    A.   Game Introduction
+
+    B.   Development Basis
+
+    C.   Game Construct
+
+2. Object-Orient Implementation
+
+    A.   Game Design Properties(Use Case Diagram)
+
+    B.   Class Design Properties(Class Diagram)
+
+    C.   Object-Orient Feature Implementation
+
+3. Program Implementation
+
+    A.   Function Implementation Properties(Sequence Diagram)
+
+    B.   Function Implementation Properties(Activity Diagram)
+
+4. Project Result
+
+    A.   Game Execution/Description
+
+    B.   Demo Video
+
+5. Appendix
+
+    A.   How to Compile
+
+    B.   Source Code
+       1. Project Introduction
+
+             A.   Game Introduction
+
+                  'Bong's Dungeon' is a roguelike game in its most basic form, based on the 'rogue'.
+                  The player character is represented by symbol '@' and the objective is to
+                  manipulate it and battle to gain experience (exp) to strengthen the character,
+                  collect items, defeat enemies, and descend as deep into the dungeon as possible.
+                  The game is played on a turn-by-turn basis based on the player's actions.
+                  Characters, including the player, have health (hp), damage (damage), defense
+                  (defense), and evasion (evasion), and if the player runs out of health, the game will
+                  be over, so the player must act appropriately depending on the situation.
+
+
+
+
+             B.   Development Basis
+
+                  'Bong's Dungeon' is based on the external library libtcod. libtcod is based on the
+                  Simple DirectMedia Layer (SDL), a cross-platform multimedia library that specializes
+                  in creating roguelike games. SDL abstracts the layers of video, audio, user input,
+                  etc. to make it possible to run on multiple operating systems. And libtcod outputs
+                  graphics to the screen via SDL.
+
+
+
+
+                  This project is based on 'Complete roguelike tutorial using C++ and libtcod' 1. The
+                  project is quite old, so while it works, there are many inconveniences. So, the goal of
+                  this project is to maintain the overall framework of the program and implemented
+                  the same functionality, but aimed to improve the internal structure and visibility of
+
+
+1
+    https://www.roguebasin.com/index.php/Complete_roguelike_tutorial_using_C%2B%2B_and_libtcod_-_part_1:_setting_up
+            the code, and to apply the project more oriented to the concept of object orientation.
+
+
+
+
+C.          Game Construct
+
+            When you run the game for the first time, the welcome screen displays 'New game'
+            to start the game and 'Exit' to end the game. When executing a new game, the
+            interface and map are displayed on the screen, and you can use the directional
+            keys and 'G', 'I', and '/' to operate the game as shown below.
+
+       i.       Movement
+
+                Move around the map by accepting up, down, left, and right keystrokes.
+
+      ii.       Combat
+
+                Combat is performed by making vertical or horizontal contact with an enemy
+                symbol (o, C, T, B) and pressing a key in that direction. Upon contact, the
+                player and the enemy take damage equal to their respective Attack values,
+                which can be reduced by their Defense values or avoided proportionally to
+                their Evasion values. Defeating enemies in combat earns experience points,
+                which, after accumulating a certain amount of experience points, increases
+                your level and allows you to choose one of the stats to strengthen your player.
+                If a player's health reaches zero during a battle, he/she will die and the player
+                have to restart the game.
+
+     iii.       Collect Items
+
+                If you go over an item symbol (!, #, ?) that exists in the field, a log will be
+                displayed at the bottom saying that a specific item exists at this location, and
+                you can get the item by typing 'G'.
+
+     iv.        View Items
+
+                You can check your inventory by typing 'I' to see the list of items you have
+                acquired. You can get up to 27 items, which is the number of letters in the
+                alphabet, and they are sorted in order of acquisition. Acquired items can be
+                used by entering the corresponding alphabet key in the inventory, and the
+                inventory is closed by entering a key other than the alphabet.
+
+      v.        Use Items
+
+                Items are randomly generated throughout the map and can be acquired.
+                    Healing items (heal potion) restore the player's health by a certain amount,
+                    and tracking items (snap shot, confusion shot, wide shot) search for the
+                    nearest enemy within range and deal a certain amount of damage or grant an
+                    effect upon use.
+
+         vi.        Movement Between Floors
+
+                    As you explore the map and find the '>' symbol in a field, you can press the '/'
+                    key to move to the next level. Descending the floor will randomize the entire
+                    map and reset the placement of enemies and items. Enemies will also increase
+                    their stats in response to the floor level.
+
+         vii.       Save & Run
+
+                    The game automatically saves your current progress. This creates a save file,
+                    'save.sav', which, if present, will display 'Continue' on the welcome screen and
+                    allow you to execute the saved progress. This save.sav is automatically deleted
+                    when the player gets killed in the game.
+
+     viii.          Exit
+
+                    Selecting 'Exit' will save the current progress and exit the game.
+
+
+
+
+2. Object-Orient Implementation
+
+    A.          Game Design Properties (Use Case Diagram)
+
+
+
+
+    B.          Class Design Properties (Class Diagram)
+i.          Object
+
+       1.    Anything that can be stored and executed
+
+       2.    The basis of all classes
+
+ii.         Engine
+
+       1.    The underlying system that powers the game
+
+iii.        Destructible
+
+       1.    Destructible objects
+
+       2.    class PlayerDestructible: Player
+
+       3.    class EnemyDestructible: Enemies
+iv.          Actor
+
+        1.    Sets the state of each object
+
+v.           Item
+
+        1.    How in-game items operates
+
+        2.    class Healer: Healing items
+
+        3.    class SnapShot: Attack items
+
+        4.    class ConfuseShot: Effect items
+
+        5.    class WideShot: AoE items
+
+vi.          Attacker
+
+        1.    System that allows to perform combat
+
+vii.         Container
+
+        1.    System that allows you to store acquired items
+
+viii.        Ai
+
+        1.    How each Destructible operates
+
+        2.    class PlayerAi: Player
+
+        3.    class EnemyAi: Enemy
+                 4.    class ConfusedEnemyAI: Confused Enemy
+
+
+
+
+           ix.        Map
+
+                 1.    Creates In-Game Map
+
+                 2.    class Tile: Game Map structure
+
+           x.         Gui
+
+                 1.    Components of a screen
+
+                 2.    class Menu: Menu screen
+
+C.         Object-Orient Feature Implementation
+
+      i.         Encapsulation
+
+                 Encapsulation is achieved by separating headers and .cpp files, hiding data and
+                 behavior inside objects. For example, Actor encapsulates the location,
+                 appearance, and behavior of characters in the game; Destructible encapsulates
+                 the health, defense, and death process to represent something that can be
+                 destroyed; and Item represents an in-game item and encapsulates the type
+                 and behavior of the item.
+
+     ii.         Inheritance
+
+                 Inheritance is achieved by creating a hierarchy of objects, using the most basic
+                   class and having other objects inherit from them. For example, most classes,
+                   such as Actor, Destructible, Attacker, Item, and Map, inherit from Object, the
+                   class that provides storage and loading functionality.
+
+        iii.       Polymorphism
+
+                   Polymorphism is achieved by allowing objects of different classes to respond
+                   to the same method call in different ways. For example, the update() method
+                   of an Ai adjusts the Ai state of each object, but it depends on which Ai player
+                   is dealing with. For an EnemyAi, update() will cause the enemy to move
+                   towards the player and attack, but for a ConfusedEnemyAi, it will cause the
+                   enemy to move in a random direction.
+
+3. Program Implementation
+
+   A.          Function Implementation Properties(Sequence Diagram)
+
+
+
+
+   B.          Function Implementation Properties(Activity Diagram)
+4. Project Result
+
+    A.        Game Execution/Description
+
+         i.       Display 1. Main menu
+
+                  The first time you run the game, you will see a main menu screen. You can
+                  select New game to start a new game, Continue to continue if you have any
+                  progress (save file), or Exit to end the game.
+ ii.   Display 2. Game Initialization
+
+       The bottom left corner of the screen displays the player's current health and
+       required experience, while the bottom center displays a simple log of actions,
+       interactions with objects, and the current situation.
+
+
+
+
+iii.   Display 3. ¿¸≈ı
+
+       Enemies will track you as you enter their line of sight. When you and an
+       enemy collide, you each take (your opponent's attack value - your defense
+      value) damage, and you gain experience for defeating them. When an enemy
+      or player is killed, a log is printed at the bottom and a '%' symbol is left on
+      the map.
+
+
+
+
+iv.   Display 4. Level Up
+
+      Gaining a certain amount of experience increases your level, and you can
+      choose to enhance one of your player's stats. Health increases your health by
+      20, Attack increases your attack by 1, Defense increases your defense by 1, and
+      Evasion increases your evasion by 2%.
+
+
+
+
+v.    Display 5. Collect Item
+
+      When the player moves over the tile where the item is located, a log is printed
+      at the bottom indicating that the item is located here. If the inventory is not
+      full at this point, the item can be picked up and is stored in the inventory in
+      the order it was picked up.
+
+
+
+
+vi.   Display 6. Use Item
+
+      Obtained items are available in your inventory.
+
+
+
+
+      An example of a healing item is heal potion, which restores a certain amount
+      of health and prints "You feel refreshed." to the log.
+       As an example of a tracking item, snap shot deals a certain amount of damage
+       to the enemy closest to the player, and prints "The player fires a sudden shot
+       to the %s! The damage is %g hit points." in the log.
+
+
+
+
+vii.   Display 7. Level Descension
+
+       When the player steps on a '<' symbol on the map and presses the '/' button,
+       they move to the next floor. The new floor is completely reset, and traveling
+       through it will result in a log being printed at the bottom and half of your
+                maximum health being restored.
+
+
+
+
+     viii.      Display 8. Menu
+
+                Pressing the ESC button stops the game and displays a menu window. At this
+                point, you can choose to start a new game, continue the game, or exit.
+
+
+
+
+   B.        Demo Video
+
+
+
+
+5. Appendix
+A.          How to Compile
+
+       i.       This project is created through Code::Blocks.
+
+                First   download    the    Nightly   build   CB_20230604_rev13311_win64-setup-
+                MinGW.exe from the URL below and install it. This is because MinGW-w64 which
+                is included in original Code::Blocks has problem supporting the C++17.
+
+                https://sourceforge.net/projects/codeblocks/files/Binaries/Nightlies/2023/
+
+      ii.       Go to Windows Settings -> System -> Info -> Advanced System Settings ->
+                Environment Variables, select Path, press Edit, and add MinGW\bin where
+                CodeBlocks is installed.
+
+     iii.       Download SDL2-devel-2.28.5-mingw.zip from the URL below. After
+                decompressing, copy the bin, include and lib folders under x86_64-w64-
+                mingw32 to your working project folder.
+
+                https://github.com/libsdl-org/SDL/releases/tag/release-2.28.5
+
+     iv.        Download libtcod-1.24.0-x86_64-mingw.tar.gz from the URL below. After
+                decompressing, copy the include and data folders to your working project
+                folder. Copy libtcod.dll to the project folder and libtcod.a to the project
+                folder\lib.
+
+                https://github.com/libtcod/libtcod/releases
+
+      v.        Copy the following files into the Project folder and modify it as below.
+
+                 Rogue.cbp
+                 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+                 <CodeBlocks_project_file>
+                          <FileVersion major="1" minor="6" />
+                          <Project>
+                                    <Option title="rogue" />
+                                    <Option pch_mode="2" />
+                                    <Option compiler="gcc" />
+                                    <Build>
+                                             <Target title="Debug">
+                                                       <Option    output="rogue"    prefix_auto="1"
+                 extension_auto="1" />
+                                                       <Option object_output="obj/" />
+                                                       <Option type="1" />
+                                                       <Option compiler="gcc" />
+                                                       <Compiler>
+                                                                <Add option="-g" />
+                                                       </Compiler>
+                                             </Target>
+                                    </Build>
+                                    <Compiler>
+                                             <Add option="-Wall" />
+                                             <Add directory="include" />
+                                             <Add directory="include/SDL2" />
+                                    </Compiler>
+                                    <Linker>
+                                               <Add option="-ltcod -lmingw32 -lSDL2main -lSDL2" />
+                                               <Add directory="lib" />
+                                      </Linker>
+                                      <Unit filename="rogue.cpp" />
+                                      <Extensions>
+                                                <lib_finder disable_auto="1" />
+                                      </Extensions>
+                             </Project>
+                    </CodeBlocks_project_file>
+
+
+
+
+          B.   Source Code
