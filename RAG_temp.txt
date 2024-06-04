@@ -1,0 +1,2 @@
+### CHUNK 47:
+What this book covers Chapter 1 , A Gentle Introduction to Python , introduces you to fundamental programming concepts.
