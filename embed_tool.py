@@ -36,8 +36,13 @@ def add_embed(embed, text):
 
 def gen_embed(chunks):
     embed = {}
+    cnt = 0
     for text in chunks:
         add_embed(embed, text)
+        print("\r%d / %d" % (cnt, len(chunks)), end="")
+        # print(f"\r{cnt} / {len(chunks)}", end="")
+        cnt += 1
+    print(" Done...")
     return embed
 
 def save_embed(embed, path):
