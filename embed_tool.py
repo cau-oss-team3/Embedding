@@ -3,11 +3,12 @@
 import os
 import sys
 import pickle
+import numpy as np
 from openai import OpenAI
 # from env import OPEN_AI_KEY
 
 OPENAI_EMB_MODEL = "text-embedding-3-small"
-OPEN_AI_KEY = "sk-proj-xxx" ## insert api key here
+OPEN_AI_KEY = "xxx" ## insert api key here
 
 def get_openai_client() -> OpenAI:
     return OpenAI(api_key=OPEN_AI_KEY)
